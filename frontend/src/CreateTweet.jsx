@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postTweetThunk } from './store/tweet';
 import { ClimbingBoxLoader } from 'react-spinners';
-import { useNavigate } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 
 // function App() {
 //   //const history = useHistory();
@@ -27,17 +27,25 @@ export default function CreateTweet() {
     const [message, setMessage] = useState('');
     const [showLoading, setShowLoading] = useState(false);
 
+
+  //   useEffect(() => {
+
+  //  }, [showLoading]);
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         setShowLoading(true);
-
-        //setTimeout(async () => {
+        //doThunk()
+        setTimeout(async () => {
             const tweetData = {
                 message,
             };
 
             const errorCheck = await dispatch(postTweetThunk(tweetData));
+
+            setMessage('');
+            setShowLoading(false);
 
             if (errorCheck) {
                 return; // handle errors here
@@ -46,10 +54,28 @@ export default function CreateTweet() {
             setMessage('');
             setShowLoading(false);
             //navigate("/");
-        //}, 3000);
+        }, 30000);
 
         return;
     };
+
+    async function doThunk(){
+      const tweetData = {
+        message,
+      };
+
+      const errorCheck = await dispatch(postTweetThunk(tweetData));
+
+      setMessage('');
+      setShowLoading(false);
+
+      if (errorCheck) {
+          return; // handle errors here
+      }
+
+      setMessage('');
+      setShowLoading(false);
+    }
 
     return (
         <form onSubmit={handleSubmit}>
